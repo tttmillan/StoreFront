@@ -3,12 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1585
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreFront", "StoreFront\StoreFront.csproj", "{686614A9-25D3-4487-A6EC-23109F9EF51B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreFront.UI.MVC", "StoreFront\StoreFront.UI.MVC.csproj", "{686614A9-25D3-4487-A6EC-23109F9EF51B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C60B252F-7F6A-416E-83F2-082C50731195}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreFront.DATA.EF", "StoreFront.DATA.EF\StoreFront.DATA.EF.csproj", "{BCE3807F-9D8E-4881-ACCB-9D8C007C3970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,10 @@ Global
 		{686614A9-25D3-4487-A6EC-23109F9EF51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{686614A9-25D3-4487-A6EC-23109F9EF51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{686614A9-25D3-4487-A6EC-23109F9EF51B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCE3807F-9D8E-4881-ACCB-9D8C007C3970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCE3807F-9D8E-4881-ACCB-9D8C007C3970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCE3807F-9D8E-4881-ACCB-9D8C007C3970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCE3807F-9D8E-4881-ACCB-9D8C007C3970}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

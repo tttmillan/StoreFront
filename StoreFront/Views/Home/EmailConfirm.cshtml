@@ -1,0 +1,15 @@
+﻿@model StoreFront.Models.ContactViewModel
+
+@{
+    ViewBag.Title = "Email Confirm";
+}
+
+<div class="confirm">
+<h2>@ViewBag.Title</h2>
+<h3 class="text-info">We received the following message:</h3>
+<hr />
+<p>Name: @Model.Name</p>
+<p>Email: @Model.Email</p>
+<p>Subject: @(string.IsNullOrEmpty(Model.Subject) ? "No subject provided" : Model.Subject)</p>
+<p>Message:<br /></p>
+</div>

@@ -1,8 +1,6 @@
-﻿using Microsoft.Owin;
-using Owin;
+﻿using Owin;
 
-[assembly: OwinStartupAttribute(typeof(StoreFront.Startup))]
-namespace StoreFront
+namespace MVC2EFSecured.UI.MVC
 {
     public partial class Startup
     {

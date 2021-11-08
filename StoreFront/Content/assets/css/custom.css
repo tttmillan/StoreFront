@@ -1,0 +1,45 @@
+/*#region Login */
+
+div.row#login {
+    padding:2em;
+}
+
+.contact-form input, .contact-form textarea {
+    margin-bottom: 10px;
+}
+
+.contact-form span.field-validation-error {
+    font-size: .75em;
+    display: inline-block;
+    margin-bottom: 10px;
+    position: relative;
+    bottom: 1em;
+}
+
+input[type="checkbox"] {
+    opacity: 1;
+    display: inline;
+    float: none;
+    margin: 1em 0;
+    min-width: 25px;
+}
+
+section#loginForm {
+    text-align: center;
+    padding: 3em;
+    width: 50%;
+    border: 1px solid gray;
+    margin: auto;
+}
+
+    section#loginForm h2 {
+        margin: .5em 0;
+    }
+
+
+
+
+
+
+
+/*#endregion */

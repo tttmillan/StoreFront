@@ -1,0 +1,42 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.Brand>
+
+@{
+    ViewBag.Title = "Brands";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (User.IsInRole("Admin"))
+{
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </th>
+        @if (User.IsInRole("Admin"))
+        {
+        <th></th>
+        }
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrandName)
+            @Html.ActionLink("Details", "Details", new { id=item.BrandID }) 
+        </td>
+        @if (User.IsInRole("Admin"))
+        {
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BrandID }) |        
+            @Html.ActionLink("Delete", "Delete", new { id=item.BrandID })
+        </td>
+        }
+    </tr>
+}
+
+</table>
