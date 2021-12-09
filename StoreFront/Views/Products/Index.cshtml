@@ -1,93 +1,136 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Product>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Products";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsShipped)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsOnBackOrder)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UnitsSold)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Brand.BrandName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Color.ColorName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Employee.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Personalized.PersonalizedType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductType.TypeName)
-        </th>
-        <th></th>
-    </tr>
+    @if (User.IsInRole("Admin"))
+    {
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsShipped)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsOnBackOrder)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UnitsSold)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Brand.BrandName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Color.ColorName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Employee.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personalized.PersonalizedType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductType.TypeName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
-        </td>
-    </tr>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary far fa-plus-square" })
+    }
+
+    @Html.ActionLink("Grid View", "ProductsGrid", null, new { @class = "btn btn-primary far fa-th" })
+
+    <div class="container">
+        <table class="table data-table table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                    @*Product name*@
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.IsShipped)
+                    </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.IsOnBackOrder)
+                    </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.UnitsSold)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                    @*Price*@
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Brand.BrandName)
+                    @*Brand name*@
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Color.ColorName)
+                    </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Employee.FirstName)
+                    </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Personalized.PersonalizedType)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductType)
+                    @*Type Name*@
+                </th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th></th>
+                }
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.Name)*@
+                        <a href="@Url.Action("Details", new { id = item.ProductID })" title="@item.ProductName">
+                            <img src="~/Content/imgstore/golfballs/@item.ProductImage" alt="@item.ProductName" style="width: 150px;" />
+                        </a>
+                        @item.ProductName
+
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.IsShipped)
+                        </td>*@
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.IsOnBackOrder)
+                        </td>*@
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.UnitsSold)
+                        </td>*@
+                    <td style="padding-top:3.5em;">
+                        @Html.DisplayFor(modelItem => item.Price)
+                        @*@string.Format("{0:c}", item.Price)*@
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>*@
+                    <td style="padding-top:3.5em;">
+                        @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                        @*@item.Brand.BrandName*@
+
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Color.ColorName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Employee.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Personalized.PersonalizedType)
+                        </td>*@
+                    <td style="padding-top:3.5em;">
+                        @Html.DisplayFor(modelItem => item.ProductType.TypeName)
+                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td style="padding-top:3.5em;">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }, new { @class = "btn btn-outline-warning far fa-edit" }) |
+                            @*@if (item.Brand && item.Quantity == 0)
+                                {*@
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ProductID }, new { @class = "btn btn-outline-danger far fa-trash-alt" })
+                            @*}*@
+                            @*else
+                                {
+                                    <span class="text-danger">In Use</span>
+                                }*@
+                        </td>
+                    }
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        //Apply datatables plugin
+        $(document).ready(function () {
+            $(".data-table").DataTable();
+        });
+    </script>
 }
-
-</table>

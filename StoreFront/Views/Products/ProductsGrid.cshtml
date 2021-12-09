@@ -1,0 +1,45 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.Product>
+
+@{
+    ViewBag.Title = "Products Grid";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success" })
+    }
+    @Html.ActionLink("List View", "Index", null, new { @class = "btn btn-info" })
+    <div class="container">
+        <div id="bookGrid">
+            <div class="row">
+                @* The foreach below will iterate through every book from the db and populate a new div.col-md-3 *@
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3 col-sm-6 col-xs-12 book">
+                        <div class="course">
+                            <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="course-img">
+                                <img src="~/Content/imgstore/golfballs/@item.ProductImage" alt="@item.ProductName" style="width: 250px;" />
+                                @*<i class="course-link-icon fa-shopping-cart fa-link"></i>*@
+                                @*<img src="~/Content/imgstore/golfballs/@item.ProductImage" alt="@item.ProductName" style="width: 67px;" />*@
+                            </a>
+                            @*<a class="course-title" href="@Url.Action("Details", "Products", new { id = item.ProductID })">@item.ProductName</a>*@
+                            <div class="course-details">
+                                <span><b>@Html.DisplayFor(modelItem => item.ProductName)</b></span>
+                                <span class="course-category">
+                                    @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                                </span>
+                                <span class="course-price course-free">
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                    @*@item.Price - If you do not use the Html.DisplayFor, you lose the metadata rules that have been placed for things like Display formatting.*@
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

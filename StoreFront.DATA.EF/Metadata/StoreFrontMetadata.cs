@@ -110,7 +110,7 @@ namespace StoreFront.DATA.EF/*.Metadata*/
         [Required(ErrorMessage = "**Product Name is required**")]
         [StringLength(50, ErrorMessage = "**Product Name cannot be more than 50 Characters**")]
         [Display(Name = "Product Name")]
-        public string Name { get; set; }
+        public string ProductName { get; set; }
         //public int BrandID { get; set; }
         //public int TypeID { get; set; }
         //public int PersonalizedID { get; set; }
@@ -130,6 +130,13 @@ namespace StoreFront.DATA.EF/*.Metadata*/
         [DisplayFormat(NullDisplayText = "[-N/A-")]
         public int Quantity { get; set; }
         //public int ColorID { get; set; }
+        [Display(Name = "Image")]
+        [DisplayFormat(NullDisplayText = "[-N/A-")]
+        public string ProductImage { get; set; }
+        [StringLength(50, ErrorMessage = "**Description cannot be more than 50 Characters**")]
+        [DisplayFormat(NullDisplayText = "[-N/A-")]
+        public string Description { get; set; }
+
     }
 
     [MetadataType(typeof(ProductMetadata))]

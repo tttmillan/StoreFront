@@ -1,0 +1,58 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.Brand>
+
+@{
+    ViewBag.Title = "Search by Brand";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<div class="row panel-body panel-primary">
+    <br />
+    <form method="get" action="/Filters/BrandQS" class="form-horizontal pull-left">
+        <div class="form-group">
+            <div class="col-sm-4">
+                <label for="searchFilter">Search Name:</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" name="searchFilter" />
+                @* The name of the input above must match the name of the parameter being passed into the action in the controller. *@
+            </div>
+            <div class="col-sm-3">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+</div>
+@if (Model.Count() > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandName)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BrandID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.BrandID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BrandID })
+                </td>*@
+        </tr>
+    }
+</table>
+}
+else
+{
+   <p class="alert alert-warning text-center">
+       Sorry, your criteria did not return any results. Please try again or hit Search to refresh the page.
+
+   </p>
+}

@@ -4,39 +4,54 @@
     ViewBag.Title = "Brands";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2 style="padding-top: 1em; text-align:center;">@ViewBag.Title</h2>
 
 @if (User.IsInRole("Admin"))
 {
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    <p style="text-align:center;">
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-outline-primary far fa-plus-square" })
+    </p>
 }
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BrandName)
-        </th>
-        @if (User.IsInRole("Admin"))
-        {
-        <th></th>
-        }
-    </tr>
+    <div class="container">
+        <table class="table data-table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BrandName)
+                    </th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="col-md-6">
+                            @Html.DisplayFor(modelItem => item.BrandName)
+                            @*@Html.ActionLink("Details", "Details", new { id = item.BrandID })*@
+                        </td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td class="dt-body-right">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.BrandID }, new { @class = "btn btn-outline-warning far fa-edit" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.BrandID }, new { @class = "btn btn-outline-danger far fa-trash-alt" })
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BrandName)
-            @Html.ActionLink("Details", "Details", new { id=item.BrandID }) 
-        </td>
-        @if (User.IsInRole("Admin"))
-        {
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BrandID }) |        
-            @Html.ActionLink("Delete", "Delete", new { id=item.BrandID })
-        </td>
-        }
-    </tr>
+        </table>
+    </div>
+
+@section scripts {
+    <script>
+        //Apply datatables plugin
+        $(document).ready(function () {
+            $(".data-table").DataTable();
+        });
+    </script>
 }
-
-</table>

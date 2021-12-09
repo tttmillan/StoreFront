@@ -1,33 +1,243 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Color>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Colors (Ajax Example)";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+
+<h2 style="text-align:center; padding-top:1em;">@ViewBag.Title</h2>
+
+<div id="MessageContent"></div>
+
+@if (User.IsInRole("Admin"))
+{
+<p class="col-md-6" style="text-align:center">
+    <button id="toggleColorCreate" class="btn btn-outline-primary far fa-plus-square">Add New</button>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ColorName)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ColorName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ColorID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ColorID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ColorID })
-        </td>
-    </tr>
 }
+@*<p>
+    text-right pull-left
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>*@
+<div id="ColorCreate">
+    @Html.Partial("ColorCreate", new StoreFront.DATA.EF.Color())
+</div>
+<div class="container">
+    <table class="table data-table table-striped" id="ColorTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ColorName)
+                </th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="Color-@item.ColorID">
+                    <td class="col-md-6">
+                        @Html.DisplayFor(modelItem => item.ColorName)
+                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td class="dt-body-right">
+                            <a href="" class="DetailsLink btn btn-outline-info far fa-question-circle" id="@item.ColorID">Details</a> |
 
-</table>
+                            <a href="" class="EditLink btn btn-outline-warning far fa-edit" id="@item.ColorID">Edit</a> |
+
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.ColorID }) |*@
+                            @*@Html.ActionLink("Details", "Details", new { id=item.ColorID }) |*@
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.ColorID })*@
+                            @Ajax.ActionLink("Delete","AjaxDelete", "Colors", new { id=item.ColorID},
+                            new AjaxOptions
+                            {
+                                HttpMethod = "POST",
+                                //Confirm will allow for a popup to display confirming the user wants to delete the publisher
+                                Confirm = $"Are you sure you want to delete {item.ColorName} from publishers?",
+                                //Below will handle success or failure of the delete action
+                                OnSuccess = "deleteConfirmed",//This line is wiring up a JS function to execute when Ajax returns a successful result.
+                                OnFailure = "deleteFailed"
+                            }, new {@class="btn btn-outline-danger far fa-trash-alt"}
+                            )
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="ColorDetails"></div>
+
+@section scripts {
+    <script>
+        //Apply datatables plugin
+        $(document).ready(function () {
+            $(".data-table").DataTable();
+        });
+    </script>
+    
+    <script>
+        //Ajax functionality here
+        function deleteConfirmed(response) {
+            //remove the row from the table based on its id
+            var rowId = "#Color-" + response.id;
+            $('#ColorTable').find(rowId).remove();
+
+            //Below we are going to setup an output element that will display a success or failure message.
+            $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+        }
+
+
+        function deleteFailed() {
+            //Display a message to the output element that the delete called for whatever reason
+            $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful. is the color referenced by a ball? If so, change the ball's color or delete the ball.</div>");
+        }
+
+        //--------Details AJAX--------//
+        //show the details dialog/popup
+        $('a.DetailsLink').click(function (e) {
+            e.preventDefault();//This prevents default behavior of the link (reloading the page)
+
+            //target popup placeholder div, pass it data (this clicked-link's ID), Then we will apply jQueryUI dialog plugin function to make it a popup w/ various settings and it's going to have the partial view added as content.
+            $('#ColorDetails').data("cId", $(this).attr('id'))
+                .dialog({
+                    width: 400,
+                    height: 200,
+                    open: function () {
+                        var colID = $(this).data('cId');
+                        $(this).load("/Colors/ColorDetails/" + colID);
+                    },
+                    title: "Color Details",
+                    modal: true,
+                    resizable: false
+                });
+        })
+
+        //-----------Create Functionality----------//
+
+        //Show/Hid the create form
+        $('#ColorCreate').hide(); //start with the form being hidden as the page loads
+        $('#toggleColorCreate').click(function () {
+            $("#ColorCreate").toggle();//flipping between show/hide on click
+        });
+
+        $('#ColorCreateForm').submit(function (e) {
+            var formData = $(this).serializeArray();
+            console.table(formData);
+            e.preventDefault();
+
+            //use AJAX to post the new record to the db and append the row/give an error message depending on the result
+            $.ajax({
+                url: "/Colors/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (foo) {
+                    //This function will add a success message to the MessageContent element
+                    $('#MessageContent').html("<div class='alert alert-success'>Record Added!</div>");
+
+                    //Reset the form inputs so the user can create another new Publisher
+                    console.log($('#ColorCreateForm')[0]);
+                    $('#ColorCreateForm')[0].reset();
+
+                    //Append a new row with the new publisher to display in the UI
+                    $(function () {
+                        var row = '<tr><td>' + foo.ColorName + '</td>'
+                            //+ '<td>' + foo.City + '</td>'
+                            //+ '<td>' + foo.State + '</td>'
+                            //+ '<td>' + (foo.IsAtive
+                            //    ? '<input type="checkbox" disabled="disabled" checked="checked"/>'
+                            //    : '<input type="checkbox" disabled="disabled" />') + '</td>'
+                            + '<td>Refresh to show options</td?</tr>';
+                        //Append the row
+                        $('#ColorTable').append(row);
+                    });//end of the function that appends the row
+                }//end success property
+            });//end of Ajax form submission functionality
+        });//end form submit
+
+        //----------EDIT FUNCTIONALITY----------//
+        var originalContent = null;
+
+        $("a.EditLink").click(function (e) {
+            e.preventDefault();
+            var colorID = $(this).attr("id");
+
+            var row = $("#Color-" + colorID).children();
+
+            originalContent = {
+                ColId: colorID,
+                ColName: row[0].innerText,
+                //City: row[1].innerText,
+                //State: row[2].innerText,
+                //IsActive: row[3].firstElementChild.checked
+            };
+            console.log(originalContent);
+
+            $.get("/Colors/ColorEdit/" + colorID, function (data) {
+                $("#Color-" + colorID).replaceWith(
+                    '<tr id="Color-' + colorID + '"><td colspan="5">' + data + '</td></tr>');
+            });
+        });
+
+
+        $(document).on("click", "#saveUpdate", function () {
+            var formData = $("#ColorEditForm").serializeArray();
+
+            $("#MessageContent").html("<div class='alert alert-warning'>Please Wait...</div>");
+
+            $.ajax({
+                url: "/Colors/AjaxEdit",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    //populate the success message
+                    $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                    //reset the edit form
+                    $('#ColorEditForm')[0].reset();
+                    //assemble and replace the row with new content
+                    $(function () {
+                        var row = '<tr><td>' + data.ColorName +
+                            //'</td><td>' + data.City +
+                            //'</td><td>' + data.State +
+                            //'</td><td>' +
+                            //(data.IsActive
+                            //    ? '<input type="checkbox" disabled="disabled" checked="checked" />'
+                            //    : '<input type="checkbox" disabled="disabled" />') +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Color-' + data.ColorID).replaceWith(row);
+                    });
+                },
+                error: function (e) {
+                    //Update the fail message 
+                    $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the site administrator.</div>");
+                    //Recreate the row for the user to see the old info
+                    $(function () {
+                        var row = '<tr id="Color-' + originalContent.ColId + '"> <td>' + originalContent.ColName +
+                            //'</td><td>' + originalContent.City +
+                            //'</td><td>' + originalContent.State +
+                            //'</td><td>' +
+                            //(originalContent.IsActive
+                            //    ? '<input type="checkbox" disabled="disabled" checked="checked" />'
+                            //    : '<input type="checkbox" disabled="disabled" />') +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Color-' + data.ColorID).replaceWith(row);
+                    });
+                }
+            })
+        });
+
+    </script>
+}

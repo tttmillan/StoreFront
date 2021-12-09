@@ -29,7 +29,9 @@ namespace StoreFront.DATA.EF
         public virtual DbSet<Color> Colors { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Personalized> Personalizeds { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductType> ProductTypes { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
     }
 }

@@ -1,4 +1,134 @@
 ﻿#confirm {
+    text-align: center;
+}
+
+.clearfix {
+    clear: both;
+}
+/*#region Layout */
+
+.text-light {
+    text-decoration:none;
+}
+
+.container text-light {
+    font-size: 0.96em !important;
+}
+
+/*#endregion */
+
+
+
+/*#region Form */
+
+.contact-form input, .contact-form textarea {
+    margin-bottom: 10px;
+}
+
+.contact-form span.field-validation-error {
+    font-size: .75em;
+    display: inline-block;
+    margin-bottom: 10px;
+    position: relative;
+    bottom: 1em;
+}
+
+input[type="checkbox"] {
+    opacity: 1;
+    display: inline;
+    float: none;
+    /*margin: 1em 0;*/
+    min-width: 25px;
+}
+
+section#loginForm {
+    text-align: center;
+    padding: 1em;
+    width: 75%;
+    border: 1px solid gray;
+    margin: auto;
+}
+
+section#loginForm h2 {
+        margin: .5em 0;
+
+}
+
+/*#endregion */
+
+/*#region Product Create */
+
+
+
+/*#endregion */
+
+/*#region Product Details */
+#pdContainer {
+    border: 3px solid #535ba0;
+    box-shadow: 15px 15px darkgray;
+    padding: 1em;
+}
+
+#pdHeader {
+    font-size: 1.25em;
+    font-weight: bold;
+    text-align: center;
+}
+
+#pdLeft {
+    float: left;
+    width: 36%;
+}
+
+#pdRight {
+    margin-left: 38%;
+}
+
+#pdFooterLeft {
+    float: left;
+    width: 49%;
+}
+
+#pdFooterRight {
+    margin-left: 50%;
+    text-align: right;
+}
+
+#pdContainer img {
+    width: 100%;
+}
+/*#endregion */
+
+/*#region Product Edit */
+
+div.form-horizontal {
+    text-align:center;
+    padding-top: 2em;
+}
+
+.form-group {
     text-align:center;
 }
 
+.col-md-6 {
+    margin:auto;
+}
+
+
+/*#endregion */
+
+/*#region ProductType Index */
+
+section#ptContainer {
+    text-align:center;
+}
+
+/*#endregion */
+
+/*h4 div.form-horizontal{
+    padding-top: 3em;
+}*/
+
+.btn-outline-warning {
+    border-color: black;
+}

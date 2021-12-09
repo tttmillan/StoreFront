@@ -9,14 +9,15 @@
         <EntityTypeShape EntityType="StoreFrontModel.Color" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="StoreFrontModel.Employee" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="StoreFrontModel.Personalized" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreFrontModel.Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="StoreFrontModel.ProductType" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
-        <AssociationConnector Association="StoreFrontModel.FK_Products_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreFrontModel.FK_Products_Color" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreFrontModel.FK_Products_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreFrontModel.FK_Products_Personalized" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreFrontModel.FK_Products_ProductType" ManuallyRouted="false" />
-      </Diagram>
+        <EntityTypeShape EntityType="StoreFrontModel.Product" Width="1.5" PointX="3" PointY="6.5" />
+        <AssociationConnector Association="StoreFrontModel.FK_Products_Brand" />
+        <AssociationConnector Association="StoreFrontModel.FK_Products_Color" />
+        <AssociationConnector Association="StoreFrontModel.FK_Products_Employee" />
+        <AssociationConnector Association="StoreFrontModel.FK_Products_Personalized" />
+        <AssociationConnector Association="StoreFrontModel.FK_Products_ProductType" />
+        <EntityTypeShape EntityType="StoreFrontModel.UserDetail" Width="1.5" PointX="3.375" PointY="0.75" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

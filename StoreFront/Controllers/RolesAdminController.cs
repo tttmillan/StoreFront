@@ -1,4 +1,5 @@
-﻿using MVC2EFSecured.UI.MVC.Models;
+﻿
+using MVC2EFSecured.UI.MVC.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;

@@ -1,106 +1,211 @@
 ﻿@model StoreFront.DATA.EF.Product
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.ProductName + " Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsShipped)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsShipped)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsOnBackOrder)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsOnBackOrder)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UnitsSold)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UnitsSold)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
+<div id="pdContainer">
+    <div id="pdHeader">
+        @*@Html.DisplayFor(model => model.ProductName)*@ 
+        <strong style="font-size:xx-large;">@string.Format(Model.ProductName)</strong>
+    </div>
+  <div id="pdLeft">
+      <p>
+          <img src="~/Content/imgstore/golfballs/@Model.ProductImage" alt="@Model.ProductName" />
+      </p>
+  </div>
+  <div id="pdRight">
+      <p class="text-right">
+          <strong> @Html.DisplayNameFor(model => model.Price)</strong>
             @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Brand.BrandName)
-        </dt>
-
-        <dd>
+          @*<strong>Price Per Dozen</strong>
+          @string.Format("{0:c}", Model.Price)*@
+      </p>
+      <p>
+          <strong>@Html.DisplayNameFor(model => model.Brand.BrandName)</strong>
             @Html.DisplayFor(model => model.Brand.BrandName)
-        </dd>
+          @*<strong>Brand Name</strong>*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Color.ColorName)
-        </dt>
-
-        <dd>
+      <p>
+          <strong> @Html.DisplayNameFor(model => model.Color.ColorName)</strong>
             @Html.DisplayFor(model => model.Color.ColorName)
-        </dd>
+          @*<strong>Color Name</strong>*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Employee.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Employee.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Personalized.PersonalizedType)
-        </dt>
-
-        <dd>
+      </p>
+      <p>
+          <strong> @Html.DisplayNameFor(model => model.Personalized.PersonalizedType)</strong>
             @Html.DisplayFor(model => model.Personalized.PersonalizedType)
-        </dd>
+          @*<strong>Personalize</strong>*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductType.TypeName)
-        </dt>
-
-        <dd>
+      </p>
+      <p>
+          <strong> @Html.DisplayNameFor(model => model.ProductType.TypeName)</strong>
             @Html.DisplayFor(model => model.ProductType.TypeName)
-        </dd>
+          @*<strong>Type Name</strong>*@
 
-    </dl>
+      </p>
+      <p>     
+          @using (Html.BeginForm("AddToCart", "Products", new { @bookID = Model.ProductID }, FormMethod.Post, new { @class = "text-center" }))
+          {
+              @Html.HiddenFor(x => x.ProductID)
+              @*<span class="">Quantity: </span>*@
+              @Html.TextBox("Qty", 1, new { @class = "form-control", style = "max-width: 50px; display:inline;" })
+              <input type="submit" class="btn btn-primary" value="Add to Cart" name="qty" />
+          }  
+      </p>
+      @*<p>
+          <strong></strong>
+
+      </p>*@
+
+      @if (User.IsInRole("Admin"))
+      {
+          <p>
+              <strong>@Html.DisplayNameFor(model => model.IsShipped)</strong>
+                @Html.DisplayFor(model => model.IsShipped)
+              @*<strong>Shipped</strong>
+              <span>@(Model.IsShipped ? "Yes" : "No")</span>*@
+          </p>
+          <p>
+              <strong>  @Html.DisplayNameFor(model => model.IsOnBackOrder)</strong>
+                @Html.DisplayFor(model => model.IsOnBackOrder)
+              @*<strong>On Back Order</strong>
+              <span>@(Model.IsOnBackOrder ? "Yes" : "No")</span>*@
+          </p>
+          <p>
+              <strong> @Html.DisplayNameFor(model => model.UnitsSold)</strong>
+                @Html.DisplayFor(model => model.UnitsSold)
+              @*<strong>Units Sold</strong>
+              @string.Format("{0}", Model.UnitsSold)*@
+          </p>
+          <p>
+              <strong>@Html.DisplayNameFor(model => model.Quantity)</strong>
+                @Html.DisplayFor(model => model.Quantity)
+              @*<strong>Quantity</strong>
+              @string.Format("{0}", Model.Quantity)*@
+          </p>
+          @*<p>
+                <strong></strong>
+
+            </p>
+            <p>
+                <strong></strong>
+
+            </p>
+            <p>
+                <strong></strong>
+
+            </p>*@
+      }
+  </div>
+    <div class="clearfix"></div>
+    <div id="pdFooterLeft">
+        @if (User.IsInRole("Admin"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-primary" })
+        }
+    </div>
+    <div id="pdFooterRight">
+        @Html.ActionLink("Back to Products", "Index", null, new { @class = "btn btn-outline-dark" })
+    </div>
+    <div class="clearfix"></div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+@*<h4>Product</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsShipped)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsShipped)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsOnBackOrder)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsOnBackOrder)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UnitsSold)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UnitsSold)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Brand.BrandName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Brand.BrandName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Color.ColorName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Color.ColorName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Employee.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Employee.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Personalized.PersonalizedType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Personalized.PersonalizedType)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductType.TypeName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProductType.TypeName)
+            </dd>
+
+        </dl>
+    </div>*@
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

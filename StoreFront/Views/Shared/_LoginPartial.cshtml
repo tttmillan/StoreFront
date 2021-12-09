@@ -1,15 +1,42 @@
 ﻿@using Microsoft.AspNet.Identity
+
+@using StoreFront.DATA.EF
+
+@{ 
+    int location = User.Identity.GetUserName().IndexOf("@");
+}
+
+
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    StoreFrontEntities db = new StoreFrontEntities();
+    //get the user id
+    string userID = User.Identity.GetUserId();
+    //capture the associated user record from UserDetails
+    UserDetail currentUser = db.UserDetails.Where(ud => ud.UserID == userID).FirstOrDefault();
+
+    //default the user first name to Guest in case we don't find a matching record
+    string userFN = "Guest";
+    string faveColor = "#cccccc";
+
+    //If we did get a match, use it to populate the variables from above
+    if (currentUser != null)
+    {
+        userFN = currentUser.FirstName;
+        faveColor = currentUser.FavoriteColor;
+    }
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm"}))
     {
         @Html.AntiForgeryToken()
 
-        <div>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "text-light" })
+        
+<div class="nav-icon navbar-nav">
+    @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "text-light" })*@
+    @Html.ActionLink($"Hi {userFN}!", "Index", "Manage", null, new { style = $"color: {faveColor}; text-shadow: 1px 1px #000;" })
 
-            <a href="javascript:document.getElementById('logoutForm').submit()" class="text-light">Log off</a>
-        </div>
+    <a href="javascript:document.getElementById('logoutForm').submit()" class="text-light">Log off</a>
+</div>
     }
 }
 else

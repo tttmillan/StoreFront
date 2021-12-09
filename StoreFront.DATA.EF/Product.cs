@@ -15,7 +15,8 @@ namespace StoreFront.DATA.EF
     public partial class Product
     {
         public int ProductID { get; set; }
-        public string Name { get; set; }
+        public string ProductName { get; set; }
+        public string Description { get; set; }
         public int BrandID { get; set; }
         public int TypeID { get; set; }
         public int PersonalizedID { get; set; }
@@ -26,6 +27,7 @@ namespace StoreFront.DATA.EF
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public int ColorID { get; set; }
+        public string ProductImage { get; set; }
     
         public virtual Brand Brand { get; set; }
         public virtual Color Color { get; set; }

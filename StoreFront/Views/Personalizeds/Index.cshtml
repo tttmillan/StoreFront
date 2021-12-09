@@ -1,33 +1,56 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Personalized>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Personalized";
 }
 
-<h2>Index</h2>
+<h2 style="padding-top: 1em; text-align:center;">@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+@if (User.IsInRole("Admin"))
+{
+<p style="text-align:center;">
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-outline-primary far fa-plus-square" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PersonalizedType)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PersonalizedType)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PersonalIzedID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PersonalIzedID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PersonalIzedID })
-        </td>
-    </tr>
 }
+<div class="container">
+    <table class="table data-table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PersonalizedType)
+                </th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="col-md-6">
+                        @Html.DisplayFor(modelItem => item.PersonalizedType)
+                    </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td class="dt-body-right">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.PersonalIzedID }, new { @class = "btn btn-outline-warning far fa-edit" }) |
+                            @*@Html.ActionLink("Details", "Details", new { id = item.PersonalIzedID }) |*@
+                            @Html.ActionLink("Delete", "Delete", new { id = item.PersonalIzedID }, new { @class = "btn btn-outline-danger far fa-trash-alt" })
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-</table>
+@section scripts {
+    <script>
+        //Apply datatables plugin
+        $(document).ready(function () {
+            $(".data-table").DataTable();
+        });
+    </script>
+}

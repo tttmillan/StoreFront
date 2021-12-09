@@ -20,20 +20,23 @@ namespace StoreFront.Controllers
             return View(db.Brands.ToList());
         }
 
+
+
         // GET: Brands/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Brand brand = db.Brands.Find(id);
-            if (brand == null)
-            {
-                return HttpNotFound();
-            }
-            return View(brand);
-        }
+        //------------Did Not Need----------------//
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Brand brand = db.Brands.Find(id);
+        //    if (brand == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(brand);
+        //}
 
         // GET: Brands/Create
         [Authorize(Roles = "Admin")]

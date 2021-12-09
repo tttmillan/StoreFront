@@ -1,0 +1,124 @@
+﻿@*@model IEnumerable<StoreFront.DATA.EF.Product>*@
+@model PagedList.IPagedList<StoreFront.DATA.EF.Product>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Products MVC Paging";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+
+<div class="col-md-12">
+    @using (Html.BeginForm("ProductsMVCPaging", "Filters", FormMethod.Get))
+    {
+        <p>
+            Find by Title: @Html.TextBox("SearchString", ViewBag.SearchString as string)
+            <input type="submit" class="btn btn-primary" value="Search" />
+        </p>
+    }
+</div>
+
+Page@(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ProductsMVCPaging", new { page, searchString = ViewBag.SearchString }))
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IsShipped)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IsOnBackOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().UnitsSold)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Quantity)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ProductImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Brand.BrandName)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Color.ColorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Employee.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Personalized.PersonalizedType)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ProductType.TypeName)
+        </th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsShipped)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsOnBackOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitsSold)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>*@
+            <td>
+                @*@Html.DisplayFor(modelItem => item.ProductImage)*@
+                <img src="~/Content/imgstore/golfballs/@item.ProductImage" alt="@item.ProductName" style="width: 67px;" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand.BrandName)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Color.ColorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personalized.PersonalizedType)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductType.TypeName)
+            </td>
+            @*<td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+            </td>*@
+        </tr>
+    }
+
+</table>
