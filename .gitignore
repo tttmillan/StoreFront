@@ -261,4 +261,4 @@ __pycache__/
 *.pyc
 
 # Prevent Sensitive data from being submitted
-/StoreFront.UI.MVC/configs/
+/StoreFront.UI.MVC/StoreFront/configs/
